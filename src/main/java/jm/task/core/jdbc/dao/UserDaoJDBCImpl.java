@@ -27,19 +27,45 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         try (PreparedStatement statement = connection.prepareStatement(CREATE)) {
+            connection.setAutoCommit(false);
             statement.executeUpdate();
+            connection.commit();
             System.out.println("Table created");
         } catch (SQLException e) {
             System.err.println("Table already exist");
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void dropUsersTable() {
         try (PreparedStatement statement = connection.prepareStatement(DROP)) {
+            connection.setAutoCommit(false);
             statement.executeUpdate();
+            connection.commit();
             System.out.println("Table deleted");
         } catch (SQLException e) {
             System.err.println("Exception while removing table");
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -48,20 +74,47 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.setString(1, name);
             statement.setString(2, lastName);
             statement.setInt(3, age);
+
+            connection.setAutoCommit(false);
             statement.executeUpdate();
+            connection.commit();
             System.out.println("Юзер " + name + " добавлен в базу");
         } catch (SQLException e) {
             System.err.println("Exception while saving user");
             e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void removeUserById(long id) {
         try (PreparedStatement statement = connection.prepareStatement(REMOVE_BY_ID)) {
             statement.setLong(1, id);
+            connection.setAutoCommit(false);
             statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             System.err.println("Exception while removing by id");
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -87,9 +140,22 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
         try (PreparedStatement statement = connection.prepareStatement(CLEAN)) {
+            connection.setAutoCommit(false);
             statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             System.err.println("Exception while cleaning");
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
