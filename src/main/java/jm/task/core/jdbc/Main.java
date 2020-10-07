@@ -10,7 +10,6 @@ public class Main {
     public static void main(String[] args) {
 
         UserServiceImpl service = new UserServiceImpl();
-        Util.createConnection();
 
         service.createUsersTable();
 
@@ -25,6 +24,5 @@ public class Main {
         System.out.println(service.getAllUsers());
 
         service.dropUsersTable();
-        Util.closeConnection();
     }
 }
