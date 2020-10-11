@@ -1,6 +1,5 @@
 package jm.task.core.jdbc.util;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -62,11 +61,10 @@ public class Util {
         properties.setProperty("hibernate.connection.password", PASS);
         properties.setProperty("hibernate.connection.driver_class", DB_DRIVER);
 
-        SessionFactory sessionFactory = new Configuration()
+        return new Configuration()
                 .addAnnotatedClass(jm.task.core.jdbc.model.User.class)
                 .addProperties(properties)
                 .buildSessionFactory();
-        return sessionFactory;
 
     }
 
