@@ -144,7 +144,7 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
-            System.err.println("Exception while cleaning");
+            System.err.println("Exception while cleaning table");
             try {
                 connection.rollback();
             } catch (SQLException e1) {
